@@ -40,6 +40,9 @@ Object::InterfaceType - the Go lang Interface style duck type checker
 
   use Object::InterfaceType;
 
+  interface_type Stringify => ['as_string'];
+  is_Stringify(URI->new) ? 'ok' : 'ng';
+
 =head1 DESCRIPTION
 
 Object::InterfaceType is
