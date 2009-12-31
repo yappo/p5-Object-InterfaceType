@@ -1,27 +1,67 @@
-This is Perl module Object::InterfaceType.
+NAME
+    Object::InterfaceType - the Go lang Interface style duck type checker
 
-INSTALLATION
+SYNOPSIS
+      use Object::InterfaceType;
 
-Object::InterfaceType installation is straightforward. If your CPAN shell is set up,
-you should just be able to do
+      # create interface type check function
+      interface_type stringify => ['as_string'];
+      is_stringify(URI->new) ? 'ok' : 'ng';
 
-    % cpan Object::InterfaceType
+      # get interface type code reference
+      my $is_stringify = interface_type ['as_string'];
+      $is_stringify->(URI->new) ? 'ok' : 'ng';
 
-Download it, unpack it, then build it as per the usual:
+DESCRIPTION
+    Object::InterfaceType is Go lang Interface style duck type checker.
 
-    % perl Makefile.PL
-    % make && make test
+    This module export is interface_type function.
 
-Then install it:
+    It is useful when you receive an object with a specific method. you can
+    the recyclable duck type check can be performed.
 
-    % make install
+    Object::InterfaceType is using Exporter, export of interface_type can be
+    controlled.
 
-DOCUMENTATION
+      use Object::InterfaceType ();
+      Object::InterfaceType::interface_type stringify => ['as_string'];
+      is_stringify(URI->new) ? 'ok' : 'ng';
 
-Object::InterfaceType documentation is available as in POD. So you can do:
+FUNCTION SPEC
+  interface_type $typename => \@methods
+    $typename added prefix "is_" is the function name, it creates to current
+    package.
 
-    % perldoc Object::InterfaceType
+      interface_type stringify => [qw/ new as_string /];
 
-to read the documentation online with your favorite pager.
+    This created function is used as follows.
 
-Kazuhiro Osawa
+      my $uri = URI->new;
+      if (is_stringify($uri)) {
+          say '$uri is stringify object';
+      }
+
+    1 is returned by an object with "new" and "is_stringify" method. "undef"
+    returns in the other object.
+
+  my $check_code_reference = interface_type \@methods
+    $typename is omissible. in that case, the reference of the code to check
+    is returned, without performing creation of a function.
+
+      my $is_stringify = interface_type [qw/ new as_string /];
+
+      my $uri = URI->new;
+      if ($is_stringify->($uri)) {
+          say '$uri is stringify object';
+      }
+
+AUTHOR
+    Kazuhiro Osawa <yappo <at> shibuya <döt> pl>
+
+SEE ALSO
+    <http://golang.org/doc/go_spec.html#Interface_types>
+
+LICENSE
+    This library is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
