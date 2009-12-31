@@ -17,13 +17,9 @@ sub interface_type {
     $methods = [] unless $methods && ref($methods) eq 'ARRAY';
 
     my $code = sub {
-        my $obj = shift;
-        my $class = blessed $obj;
+        my $class = blessed $_[0];
         return unless $class;
-
-        for my $method (@{ $methods }) {
-            return unless $class->can($method);
-        }
+        $class->can($_) or return for @{ $methods };
         return 1;
     };
 
