@@ -10,6 +10,10 @@ use Scalar::Util 'blessed';
 sub interface_type {
     my($typename, $methods) = @_;
     my $caller = caller(0);
+    if (ref($typename) eq 'ARRAY') {
+        $methods  = $typename;
+        $typename = undef;
+    }
     $methods = [] unless $methods && ref($methods) eq 'ARRAY';
 
     my $code = sub {
@@ -23,6 +27,7 @@ sub interface_type {
         return 1;
     };
 
+    return $code unless defined $typename;
     no strict 'refs';
     *{"$caller\::is_$typename"} = $code;
 }
