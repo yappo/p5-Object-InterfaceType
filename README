@@ -55,6 +55,19 @@ FUNCTION SPEC
           say '$uri is stringify object';
       }
 
+TODO
+    includable interface is unsupported.
+
+    specification proposal
+
+      interface_type stringify => [qw/ as_string /];
+      my $is_dump = interface_type [qw/ as_dump /];
+
+      # including stringify and $is_dump
+      interface_type dump_with_syringify => [
+          'new', \&is_stringify, $is_dump
+      ];
+
 AUTHOR
     Kazuhiro Osawa <yappo <at> shibuya <döt> pl>
 

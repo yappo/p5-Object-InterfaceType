@@ -60,6 +60,22 @@ in that case, the reference of the code to check is returned, without performing
       say '$uri is stringify object';
   }
 
+=head1 TODO
+
+includable interface is unsupported.
+
+specification proposal
+
+  interface_type stringify => [qw/ as_string /];
+  my $is_dump = interface_type [qw/ as_dump /];
+
+  # including stringify and $is_dump
+  interface_type dump_with_syringify => [
+      'new', \&is_stringify, $is_dump
+  ];
+
+
+
 =head1 AUTHOR
 
 Kazuhiro Osawa E<lt>yappo <at> shibuya <döt> plE<gt>
